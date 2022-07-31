@@ -33,13 +33,16 @@ class InstagramtFollowrBot:
     def find_collowers(self):
         self.driver.get(f"https://www.instagram.com/{TARGET_ACCOUNT}/following")
         pause()
-        follower_modal = self.driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div/div[2]/div/div/div[1]/div/div[2]/div/div/div')
+        modal = self.driver.find_element(By.XPATH,"/html/body/div[1]/div/div/div/div[2]/div/div/div[1]/div/div[2]/div/div/div/div/div/div/div/div[3]")
+        pause()
         for i in range(10):
-        # Scroll the top of the modal (popup) element by the height of the modal (popup)"
-            self.driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", follower_modal)
-            pause()
-            
+            print("scrolling")
+            self.driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", modal)
+            time.sleep(2)
+                    
 
 bot = InstagramtFollowrBot(CHROME_DRIVER_PATH)
 bot.sign_in()
 bot.find_collowers()
+pause()
+bot.driver.quit()
