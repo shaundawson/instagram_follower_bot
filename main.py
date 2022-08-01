@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 import random
+from selenium.common.exceptions import ElementClickInterceptedException
 
 
 def pause():
@@ -38,11 +39,22 @@ class InstagramtFollowrBot:
         for i in range(10):
             print("scrolling")
             self.driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", modal)
-            time.sleep(2)
-                    
+            pause()
+    
+    def follow(self):
+        all_buttons = self.driver.find_elements(By.CSS_SELECTOR,"li button")
+        for button in all_buttons:
+            try:
+                button.click()
+                print("Follow button clicked")
+                pause()
+            except ElementClickInterceptedException:
+                cancel_button = self.driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div/div[2]/div/div/div[2]/div/div/div[1]/div/div[2]/div/div/div/div/div/div/div/div[3]/button[2]")
+                cancel_button.click()    
+
 
 bot = InstagramtFollowrBot(CHROME_DRIVER_PATH)
 bot.sign_in()
 bot.find_collowers()
-pause()
+bot.follow()
 bot.driver.quit()
